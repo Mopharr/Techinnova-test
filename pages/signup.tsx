@@ -1,10 +1,14 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Container, Content, Field } from "../styles/login.style";
+import { Container, Content, Field, Message,Errorr } from "../styles/login.style";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress"
+import { useRef, useState } from "react";
+import { useRouter} from 'next/router'
+
 
 interface FormInput {
   email: string;
@@ -21,6 +25,11 @@ const schema = yup.object({
 });
 
 const Home: NextPage = () => {
+  const [loading, setLoading] = useState(false)
+  const timer: any = useRef()
+  const [success, setSuccess] = useState(false);
+  const [err, setErr] = useState(false);
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -30,6 +39,10 @@ const Home: NextPage = () => {
   });
 
   const onSubmit = (data: FormInput) => {
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     axios
       .post(
         "https://auth-test-api-techinnover.herokuapp.com/api/v1/user/create",
@@ -37,10 +50,20 @@ const Home: NextPage = () => {
       )
       .then((res) => {
         window.localStorage.setItem("data", JSON.stringify(res.data));
-        console.log(res);
+        setSuccess(true);
+        timer.current = window.setTimeout(() => {
+          setSuccess(false);
+        }, 4000);
+        setErr(false);
+        router.push('/')
       })
       .catch((error) => {
         console.log(error);
+        setSuccess(false);
+        setErr(true);
+        timer.current = window.setTimeout(() => {
+          setErr(false);
+        }, 4000);
       });
   };
   return (
@@ -52,6 +75,17 @@ const Home: NextPage = () => {
       </Head>
 
       <Container>
+        {success ? (
+          <Message>
+            <p>Your password has been changed successfully</p>
+          </Message>
+        ) : null}
+
+        {err ? (
+          <Errorr className={success ? "none" : "show"}>
+            <p>You recently used this password, please try something else</p>
+          </Errorr>
+        ) : null}
         <Content>
           <h2>Signup</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,6 +104,7 @@ const Home: NextPage = () => {
                 {...register("password")}
                 placeholder="Enter your Password"
               />
+              <p>{errors.password?.message}</p>
             </Field>
             <Field>
               <label htmlFor="name">Full Name</label>
@@ -86,7 +121,14 @@ const Home: NextPage = () => {
                 <option value="lecturer">Lecture</option>
               </select>
             </Field>
-            <button type="submit">Sign Up</button>
+            <button type="submit">
+              {" "}
+              {loading ? (
+                <CircularProgress size={30} sx={{ color: "white" }} />
+              ) : (
+                "Sign Up"
+              )}
+            </button>
           </form>
         </Content>
       </Container>

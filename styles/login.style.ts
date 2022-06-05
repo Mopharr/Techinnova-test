@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Noto+Serif&family=Nunito:wght@200&family=Open+Sans:wght@300&family=Overpass:wght@300&display=swap');
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Noto+Serif&family=Nunito:wght@200&family=Open+Sans:wght@300&family=Overpass:wght@300&display=swap");
   background: #f5f5f5;
   width: 100vw;
   height: 100vh;
   position: relative;
+  padding-top: 2em;
 `;
 export const Content = styled.div`
   width: 700px;
@@ -100,6 +101,53 @@ export const Field = styled.div`
     margin-bottom: 2em;
     padding: 0 0.5em;
   }
+  p {
+    color: red;
+    margin-top: -1em;
+    margin-bottom: 1em;
+
 `;
 
+export const Message = styled.div`
+  width: 406px;
+  margin: auto;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #10b981;
+  border-radius: 5px;
+  p {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #ffffff;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+`;
 
+export const Errorr = styled.div`
+  width: 406px;
+  margin: auto;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background: #ef4444;
+  p {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #ffffff;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+  }
+`;
