@@ -8,6 +8,8 @@ import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress"
 import { useRef, useState } from "react";
 import { useRouter} from 'next/router'
+import {GrFormCheckmark} from "react-icons/gr"
+import {BiErrorCircle} from "react-icons/bi"
 
 
 interface FormInput {
@@ -77,13 +79,18 @@ const Home: NextPage = () => {
       <Container>
         {success ? (
           <Message>
-            <p>Your password has been changed successfully</p>
+            <p>
+              <GrFormCheckmark /> sign up was successful
+            </p>
           </Message>
         ) : null}
 
         {err ? (
           <Errorr className={success ? "none" : "show"}>
-            <p>You recently used this password, please try something else</p>
+            <p>
+              <BiErrorCircle />
+              sign up failed
+            </p>
           </Errorr>
         ) : null}
         <Content>
@@ -129,6 +136,7 @@ const Home: NextPage = () => {
                 "Sign Up"
               )}
             </button>
+            <a href="/">Sign In</a>
           </form>
         </Content>
       </Container>

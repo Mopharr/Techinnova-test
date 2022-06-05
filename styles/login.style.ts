@@ -15,6 +15,14 @@ export const Content = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  @media (max-width: 768px) {
+    width: 80%;
+    margin: auto;
+  }
+  @media (max-width: 500px) {
+    width: 96%;
+    margin: auto;
+  }
   h2 {
     font-family: "Inter";
     font-style: normal;
@@ -42,12 +50,26 @@ export const Content = styled.div`
     flex: none;
     order: 0;
     flex-grow: 0;
+    cursor: pointer;  
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+  a {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 1em;
+    color: blue;
+    text-decoration: underline;
   }
 `;
 export const Field = styled.div`
   display: flex;
   flex-direction: column;
   width: 528px;
+   @media (max-width: 768px){
+      width: 100%
+    }
 
   label {
     font-family: "Inter";
@@ -74,6 +96,7 @@ export const Field = styled.div`
     margin-bottom: 2em;
     padding: 0 0.5em;
     outline: none;
+   
   }
   input::placeholder {
     font-family: "Inter";

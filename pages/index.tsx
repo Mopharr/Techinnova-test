@@ -12,6 +12,8 @@ import * as yup from "yup";
 import axios from "axios";
 import { useRef, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import { GrFormCheckmark } from "react-icons/gr";
+import { BiErrorCircle } from "react-icons/bi";
 
 interface FormInput {
   email: string;
@@ -47,7 +49,8 @@ const login = () => {
         data
       )
       .then((res: any) => {
-        window.localStorage.setItem("data", JSON.stringify(res.data));
+       document.cookie =
+         `ID=${res.data._id}; expires=Thu, 22 Dec 2022 12:00:00 UTC;` 
         setSuccess(true);
         timer.current = window.setTimeout(() => {
           setSuccess(false);
@@ -73,13 +76,19 @@ const login = () => {
       <Container>
         {success ? (
           <Message>
-            <p>Your password has been changed successfully</p>
+            <p>
+              {" "}
+              <GrFormCheckmark /> login was successful
+            </p>
           </Message>
         ) : null}
 
         {err ? (
           <Errorr className={success ? "none" : "show"}>
-            <p>You recently used this password, please try something else</p>
+            <p>
+              <BiErrorCircle />
+              login failed
+            </p>
           </Errorr>
         ) : null}
 
@@ -93,6 +102,7 @@ const login = () => {
                 {...register("email")}
                 placeholder="Enter your email address"
               />
+              <p>{errors.email?.message}</p>
             </Field>
             <Field>
               <label htmlFor="password">Password</label>
@@ -111,6 +121,7 @@ const login = () => {
                 "Sign In"
               )}
             </button>
+            <a href="/signup">Sign Up</a>
           </form>
         </Content>
       </Container>
