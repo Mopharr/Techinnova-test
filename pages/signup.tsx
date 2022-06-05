@@ -6,42 +6,43 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 
-
 interface FormInput {
   email: string;
   password: string;
-  name: string;
-  role: string;
+  fullName: string;
+  userType: string;
 }
 
 const schema = yup.object({
   email: yup.string().required(),
   password: yup.string().required().min(6).max(16),
-  name: yup.string().required(),
-  role: yup.string().required(),
+  fullName: yup.string().required(),
+  userType: yup.string().required(),
 });
 
 const Home: NextPage = () => {
-  const {register, handleSubmit, formState: {errors}} = useForm<FormInput>({
-    resolver: yupResolver(schema)
-  })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInput>({
+    resolver: yupResolver(schema),
+  });
 
-const onSubmit = (data: FormInput) => {
-  axios
-    .post(
-      "https://auth-test-api-techinnover.herokuapp.com/api/v1/user/create",
-      {
-        data,
-      }
-    )
-    .then((res) => {
-      window.localStorage.setItem("data", JSON.stringify(res.data));
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+  const onSubmit = (data: FormInput) => {
+    axios
+      .post(
+        "https://auth-test-api-techinnover.herokuapp.com/api/v1/user/create",
+        data
+      )
+      .then((res) => {
+        window.localStorage.setItem("data", JSON.stringify(res.data));
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <Head>
@@ -69,22 +70,20 @@ const onSubmit = (data: FormInput) => {
                 {...register("password")}
                 placeholder="Enter your Password"
               />
-              
             </Field>
             <Field>
               <label htmlFor="name">Full Name</label>
               <input
                 type="text"
-                {...register("name")}
+                {...register("fullName")}
                 placeholder="Enter your Full name"
               />
             </Field>
             <Field>
-              <label htmlFor="role">Email Address</label>
-              <select {...register("role")} >
-                <option value="text">Text</option>
-                <option value="View">View</option>
-                <option value="Edit">Edit</option>
+              <label htmlFor="userType">Role</label>
+              <select {...register("userType")}>
+                <option value="student">Student</option>
+                <option value="lecturer">Lecture</option>
               </select>
             </Field>
             <button type="submit">Sign Up</button>
